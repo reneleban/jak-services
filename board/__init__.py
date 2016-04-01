@@ -1,1 +1,1 @@
-from .core import hello
+from .core import hello, getrequest, postrequest

@@ -18,4 +18,6 @@ def getrequest():
 def postrequest():
     return "POST"
 
-# run(app, host='localhost', port=8080, debug=True)
+# prevent running with nosetests
+if __name__ == '__main__':
+    run(app, host='localhost', port=8080, debug=True)
