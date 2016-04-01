@@ -18,4 +18,4 @@ def getrequest():
 def postrequest():
     return "POST"
 
-run(app, host='localhost', port=8080, debug=True)
+# run(app, host='localhost', port=8080, debug=True)
