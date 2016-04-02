@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 from board import helpers
-from bottle import Bottle, run, template, response
-
+from bottle import Bottle, run, response
 
 app = Bottle()
 
-@app.route('/hello/<name:re:[a-z]+>')
-def hello(name='Wurst'):
-    return template('Hello {{name}}!', name=name)
 
-@app.get('/')
+@app.get('/board')
 def getrequest():
-    return helpers.testfunction(response)
+    return helpers.listallboards(response)
 
 
-@app.post('/')
-def postrequest():
-    return "POST"
+@app.post('/board/<name:re:[a-z]*>')
+def postrequest(name):
+    return helpers.addboard(response, name)
+
 
 # prevent running with nosetests
 if __name__ == '__main__':

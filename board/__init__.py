@@ -1,1 +1,1 @@
-from .core import hello, getrequest, postrequest
+from .helpers import addboard, listallboards, removeboard
