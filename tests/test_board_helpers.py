@@ -19,7 +19,7 @@ class AdvancedTestSuite(unittest.TestCase):
         assert "application/json" in resp.content_type
 
     def test_list_boards(self):
-        resp = response();
+        resp = response()
         result = board.listallboards(response=resp)
         assert "testboard" in result
         assert "application/json" in resp.content_type

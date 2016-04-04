@@ -10,9 +10,14 @@ def getrequest():
     return helpers.listallboards(response)
 
 
-@app.post('/board/<name:re:[a-z]*>')
+@app.put('/board/<name:re:[a-z]*>')
 def postrequest(name):
     return helpers.addboard(response, name)
+
+
+@app.delete('/board/<id:re:[0-9]*')
+def deleterequest(id):
+    return helpers.removeboard(response, int(id))
 
 
 # prevent running with nosetests
