@@ -39,3 +39,11 @@ def removeboard(response, id):
         storagelist.remove(item)
     response.content_type = 'application/json; charset=utf-8'
     return json.dumps({'message': count > len(storagelist)})
+
+def removeboardbyname(response, name):
+    count = len(storagelist)
+    list = [x for x in storagelist if x.name == name]
+    for item in list:
+        storagelist.remove(item)
+    response.content_type = 'application/json; charset=utf-8'
+    return json.dumps({'message': count > len(storagelist)})

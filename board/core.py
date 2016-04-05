@@ -16,8 +16,13 @@ def postrequest(name):
 
 
 @app.delete('/board/<id:re:[0-9]*')
-def deleterequest(id):
+def deletebyidrequest(id):
     return helpers.removeboard(response, int(id))
+
+
+@app.delete('/board/<id:re:[a-zA-Z\s]*')
+def deletebynamerequest(name):
+    return helpers.removeboardbyname(response, str(name))
 
 
 # prevent running with nosetests

@@ -1,1 +1,1 @@
-from .helpers import addboard, listallboards, removeboard
+from .helpers import addboard, listallboards, removeboard, removeboardbyname
