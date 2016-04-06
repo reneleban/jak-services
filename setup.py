@@ -2,7 +2,6 @@
 
 from setuptools import setup, find_packages
 
-
 with open('README.md') as f:
     readme = f.read()
 
@@ -18,5 +17,8 @@ setup(
     author_email='leban.rene@gmail.com',
     url='https://github.com/reneleban/jak-services',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    install_requires=[
+        'bottle>=0.12'
+    ]
 )
