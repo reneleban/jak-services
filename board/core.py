@@ -22,6 +22,15 @@ class Board:
         }}
 
 
+@app.get('/')
+def getinfo():
+    return "<html><head></head><body>" \
+           "<p>GET: <strong>/board</strong> - list all boards</p>" \
+           "<p>PUT: <strong>/board/[a-z]</strong> - add board</p>" \
+           "<p>DELETE: <strong>/board/[0-9]</strong> - delete by ID</p>"\
+           "<p>DELETE: <strong>/board/[a-zA-Z\s]</strong> - delete by name</p>"\
+           "</body></html>"
+
 @app.get('/board')
 def getrequest():
     return listallboards(response)
