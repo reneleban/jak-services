@@ -22,6 +22,7 @@ def getinfo():
 
 
 @app.get('/board')
+@app.get('/board/')
 def getrequest():
     restore()
     return listallboards(response)
