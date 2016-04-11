@@ -82,4 +82,4 @@ def removeboard(response, id):
 
 # prevent running with nosetests
 if __name__ == '__main__':
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=8080, debug=True, server='cherrypy')
