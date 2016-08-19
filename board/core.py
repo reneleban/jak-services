@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
-import configparser
-import logging
-import uuid
+import json, configparser, logging, uuid, os
 
 from bottle import Bottle, run, response
 from jose import jwt
@@ -11,6 +8,9 @@ from jose import jwt
 # read config file
 config = configparser.ConfigParser()
 config.read('config.ini')
+
+LOCATION_DATA = config['board']['storage_location'] + os.path.sep + config['board']['storage_data']
+LOCATION_ACL = config['board']['storage_location'] + os.path.sep + config['board']['storage_acl']
 
 #configure logging
 logging.basicConfig(filename='board.log',level=logging.DEBUG)
@@ -22,7 +22,7 @@ app = Bottle()
 
 @app.get('/')
 def getinfo():
-    return "<html><head></head><body>" \
+    return "<html><head><title>JAK-Board-Service</title></head><body>" \
            "<p>GET: <strong>/board/token</strong> - list all boards</p>" \
            "<p>PUT: <strong>/board/[a-z]/token</strong> - add board</p>" \
            "<p>DELETE: <strong>/board/[0-9]/token</strong> - delete by ID</p>" \
@@ -32,7 +32,7 @@ def getinfo():
 @app.get('/board/<token>')
 def getrequest(token):
     logging.debug('token: '+token)
-    userdata = jwt.decode(token, config['board']['secret'], algorithms=['HS256'])
+    userdata = jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
     logging.debug('user: '+userdata["uuid"])
     restore()
     return listallboards(response)
@@ -41,7 +41,7 @@ def getrequest(token):
 @app.put('/board/<token>/<name:re:[a-zA-Z\s]*>')
 def postrequest(name, token):
     logging.debug('token: '+token)
-    userdata = jwt.decode(token, config['board']['secret'], algorithms=['HS256'])
+    userdata = jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
     restore()
     return addboard(userdata['uuid'], response, name)
 
@@ -49,7 +49,7 @@ def postrequest(name, token):
 @app.delete('/board/<token>/<board_id>')
 def deletebyidrequest(board_id, token):
     logging.debug('token: '+token)
-    userdata = jwt.decode(token, config['board']['secret'], algorithms=['HS256'])
+    userdata = jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
     restore()
     return removeboard(userdata['uuid'], response, board_id)
 
@@ -61,19 +61,20 @@ def listallboards(response):
 
 def restore():
     global storagelist, accesslist
+
     if len(storagelist) is 0:
         try:
-            with open(config['board']['storagefile'], 'r') as f:
+            with open(LOCATION_DATA, 'r') as f:
                 storagelist = json.load(f)
         except FileNotFoundError:
-            logging.info("file not found (" + config['board']['storagefile'] + ")")
+            logging.info("File not found: " + LOCATION_DATA)
 
     if len(accesslist) is 0:
         try:
-            with open(config['board']['acl_storagefile'], 'r') as f:
+            with open(LOCATION_ACL, 'r') as f:
                 accesslist = json.load(f)
         except FileNotFoundError:
-            logging.info('File not found: '+config['board']['acl_storagefile'])
+            logging.info('File not found: '+ LOCATION_ACL)
 
 
 def addboard(user_uuid, response, name):
@@ -115,10 +116,10 @@ def removeboard(user_uuid, response, board_id):
     return json.dumps({'message': count > len(storagelist)})
 
 def updateStorage():
-    with open(config['board']['storagefile'], 'w') as f:
+    with open(LOCATION_DATA, 'w') as f:
         json.dump(storagelist, f)
 
-    with open(config['board']['acl_storagefile'], 'w') as f:
+    with open(LOCATION_ACL, 'w') as f:
         json.dump(accesslist, f)
 
 # prevent running with nosetests
