@@ -18,7 +18,8 @@ user_list = []
 @app.get('/')
 def getinfo():
     return "<html><head><title>JAK-Login-Service</title></head><body>" \
-           "<p>GET: <strong>/login</strong> with BASIC AUTH</p>" \
+           "<p>GET: <strong>/login</strong> Get Token</p>" \
+           "<p>POST: <strong>/login</strong> Create user and get Token</p>" \
            "</body>"
 
 
