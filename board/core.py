@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-import json, configparser, logging, uuid, os
+import configparser
+import json
+import logging
+import os
+import uuid
 
 from bottle import Bottle, run, response
 from jose import jwt
@@ -15,8 +19,8 @@ LOCATION_ACL = config['board']['storage_location'] + os.path.sep + config['board
 # configure logging
 logging.basicConfig(filename='board.log',level=logging.DEBUG)
 
-storagelist = []
-accesslist = []
+storage_list = []
+access_list = []
 
 app = Bottle()
 
@@ -57,37 +61,37 @@ def deletebyidrequest(board_id, token):
 
 def listallboards(response):
     response.content_type = 'application/json; charset=utf-8'
-    return json.dumps(storagelist)
+    return json.dumps(storage_list)
 
 
 def restore():
-    global storagelist, accesslist
+    global storage_list, access_list
 
-    if len(storagelist) is 0:
+    if len(storage_list) is 0:
         try:
             with open(LOCATION_DATA, 'r') as f:
-                storagelist = json.load(f)
+                storage_list = json.load(f)
         except FileNotFoundError:
             logging.info("File not found: " + LOCATION_DATA)
 
-    if len(accesslist) is 0:
+    if len(access_list) is 0:
         try:
             with open(LOCATION_ACL, 'r') as f:
-                accesslist = json.load(f)
+                access_list = json.load(f)
         except FileNotFoundError:
             logging.info('File not found: '+ LOCATION_ACL)
 
 
 def addboard(user_uuid, response, name):
-    global accesslist, storagelist
+    global access_list, storage_list
 
     board_uuid = uuid.uuid4()
 
     new_board = {'id': str(board_uuid), 'name': name}
     new_access = {'board_id' : str(board_uuid), 'user_id' : str(user_uuid)}
 
-    storagelist.append(new_board)
-    accesslist.append(new_access)
+    storage_list.append(new_board)
+    access_list.append(new_access)
 
     updateStorage()
 
@@ -96,33 +100,33 @@ def addboard(user_uuid, response, name):
 
 
 def removeboard(user_uuid, response, board_id):
-    global accesslist, storagelist
+    global access_list, storage_list
 
-    count = len(storagelist)
+    count = len(storage_list)
 
-    list = [x for x in storagelist if x['id'] == str(board_id)]
+    list = [x for x in storage_list if x['id'] == str(board_id)]
     removed_boards = []
 
     for item in list:
-        for acl in accesslist:
+        for acl in access_list:
             if acl['board_id'] == str(item['id']) and acl['user_id'] == str(user_uuid):
-                storagelist.remove(item)
+                storage_list.remove(item)
 
-    new_access_list = [acl for acl in accesslist if acl['board_id'] != str(board_id)]
-    accesslist = new_access_list
+    new_access_list = [acl for acl in access_list if acl['board_id'] != str(board_id)]
+    access_list = new_access_list
 
     updateStorage()
 
     response.content_type = 'application/json; charset=utf-8'
-    return json.dumps({'message': count > len(storagelist)})
+    return json.dumps({'message': count > len(storage_list)})
 
 
 def updateStorage():
     with open(LOCATION_DATA, 'w') as f:
-        json.dump(storagelist, f)
+        json.dump(storage_list, f)
 
     with open(LOCATION_ACL, 'w') as f:
-        json.dump(accesslist, f)
+        json.dump(access_list, f)
 
 # prevent running with nosetests
 if __name__ == '__main__':

@@ -1,4 +1,8 @@
-import json, configparser, logging, uuid, hashlib
+import configparser
+import hashlib
+import json
+import logging
+import uuid
 
 from bottle import Bottle, run, response, request, auth_basic, HTTPResponse
 from jose import jwt
@@ -33,6 +37,7 @@ def check(username, password):
 @app.get('/login')
 @auth_basic(check)
 def login():
+    global user_list
     username = request.auth[0]
     user_item = [item for item in user_list if item['username'] == username]
 
@@ -48,13 +53,14 @@ def login():
 
 @app.post('/login')
 def create_login():
+    global user_list
     username = request.forms.get('username')
     password = request.forms.get('password')
     user_id = uuid.uuid4()
 
-    check = [item for item in user_list if item['username'] == username]
+    check_user = [item for item in user_list if item['username'] == username]
 
-    if len(check) == 0:
+    if len(check_user) == 0:
         response.content_type = 'application/json; charset=utf-8'
         hashed = hashlib.sha256(password.encode('utf-8'))
         user_list.append({
