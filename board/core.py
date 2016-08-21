@@ -12,13 +12,14 @@ config.read('config.ini')
 LOCATION_DATA = config['board']['storage_location'] + os.path.sep + config['board']['storage_data']
 LOCATION_ACL = config['board']['storage_location'] + os.path.sep + config['board']['storage_acl']
 
-#configure logging
+# configure logging
 logging.basicConfig(filename='board.log',level=logging.DEBUG)
 
 storagelist = []
 accesslist = []
 
 app = Bottle()
+
 
 @app.get('/')
 def getinfo():
@@ -108,12 +109,13 @@ def removeboard(user_uuid, response, board_id):
                 storagelist.remove(item)
 
     new_access_list = [acl for acl in accesslist if acl['board_id'] != str(board_id)]
-    accesslist = new_access_list;
+    accesslist = new_access_list
 
     updateStorage()
 
     response.content_type = 'application/json; charset=utf-8'
     return json.dumps({'message': count > len(storagelist)})
+
 
 def updateStorage():
     with open(LOCATION_DATA, 'w') as f:
