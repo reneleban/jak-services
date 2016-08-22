@@ -30,8 +30,7 @@ app = Bottle()
 
 @app.get('/lists/list/<token>/<board_id>')
 def get_all_elements(token, board_id):
-    userdata = extract_userdata(token)
-    return lists_for_board(response, userdata["uuid"], board_id)
+    return lists_for_board(response, board_id)
 
 
 @app.delete('/lists/list/<token>/<list_id>')
@@ -56,14 +55,14 @@ def extract_userdata(token):
     return jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
 
 
-def lists_for_board(response, owner, board_id):
+def lists_for_board(response, board_id):
     json_content(response)
     json_lists = []
 
     with dataset.connect(LOCATION_DATA) as db:
         db.begin()
         list_table = db['list']
-        lists = list_table.find(board_id=board_id, owner=owner)
+        lists = list_table.find(board_id=board_id)
 
         for row in lists:
             new_list = List(row['list_id'], row['board_id'], row['name'], row['owner'])

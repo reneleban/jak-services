@@ -37,8 +37,7 @@ app = Bottle()
 
 @app.get('/cards/<token>/<list_id>')
 def get_all_cards_for_list(token, list_id):
-    userdata = extract_userdata(token)
-    return cards_for_list(response, userdata['uuid'], list_id)
+    return cards_for_list(response, list_id)
 
 
 @app.delete('/cards/<token>/<card_id>')
@@ -84,14 +83,14 @@ def remove_card(response, owner, card_id):
     return json.dumps({'deleted': True})
 
 
-def cards_for_list(response, owner, list_id):
+def cards_for_list(response, list_id):
     json_content(response)
     json_cards = []
 
     with dataset.connect(LOCATION_DATA) as db:
         db.begin()
         card_table = db['card']
-        cards = card_table.find(list_id=list_id, owner=owner)
+        cards = card_table.find(list_id=list_id)
 
         for row in cards:
             new_card = Card(row['list_id'], row['card_id'], row['name'], row['description'], row['owner'])
