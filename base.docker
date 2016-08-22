@@ -1,5 +1,7 @@
 FROM python:alpine
 
+RUN apk add python3-dev build-base --update-cache
+
 RUN pip install virtualenv
 RUN virtualenv -p /usr/local/bin/python /appenv
 RUN . /appenv/bin/activate; pip install pip
