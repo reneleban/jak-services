@@ -28,6 +28,7 @@ def getinfo():
 
 
 def check(username, password):
+    logging.info("checking credentials for: %s", username)
     hashed_pw = hashlib.sha256(password.encode('utf-8'))
     check_user = [item for item in user_list if
                   item['username'] == username and item['password'] == hashed_pw.hexdigest()]
@@ -40,10 +41,11 @@ def login():
     global user_list
     username = request.auth[0]
     user_item = [item for item in user_list if item['username'] == username]
-
+    user = user_item[0]
+    logging.debug("generating token for user %s", user['user_id'])
     response.content_type = 'application/json; charset=utf-8'
     token = jwt.encode({
-        'user_id': str(user_item[0]['user_id'])
+        'user_id': str(user['user_id'])
     }, config['jwt']['secret'], algorithm=config['jwt']['algorithm'])
 
     return json.dumps({
@@ -57,17 +59,20 @@ def create_login():
     username = request.forms.get('username')
     password = request.forms.get('password')
     user_id = uuid.uuid4()
-
+    logging.info("processing create_login for given username: %s", username)
+    logging.debug("checking for existence: %s", username)
     check_user = [item for item in user_list if item['username'] == username]
-
+    logging.debug("found %i users", len(check_user))
     if len(check_user) == 0:
         response.content_type = 'application/json; charset=utf-8'
         hashed = hashlib.sha256(password.encode('utf-8'))
-        user_list.append({
+        new_user = {
             'user_id': str(user_id),
             'username': username,
             'password': hashed.hexdigest()
-        })
+        }
+        logging.debug("appending %s to user_list", new_user)
+        user_list.append(new_user)
 
         token = jwt.encode({'user_id': str(user_id)}, config['jwt']['secret'], algorithm=config['jwt']['algorithm'])
         return json.dumps({
