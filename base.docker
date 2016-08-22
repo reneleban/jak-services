@@ -1,0 +1,6 @@
+FROM python:alpine
+
+RUN pip install virtualenv
+RUN virtualenv -p /usr/local/bin/python /appenv
+RUN . /appenv/bin/activate; pip install pip
+
