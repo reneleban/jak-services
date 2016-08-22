@@ -1,1 +1,1 @@
-from .core import addboard, listallboards, removeboard, app
+from .core import addboard, list_all_boards, removeboard, app

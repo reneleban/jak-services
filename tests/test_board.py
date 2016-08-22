@@ -7,7 +7,7 @@ from webtest import TestApp
 
 # mock for response
 TESTBOARD = "testboard"
-TEST_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZjRkMzkxOTItZmFhZC00NDU4LThhNjktYzE0ZmJiZDQ0N2E0IiwibmFtZSI6IkFybm8gTnltb3VzIiwiYWRtaW4iOnRydWV9.S5pchdBRgdxk5Qk_SKgZQnuFQCNyGN5EHSDIxLPpirY"
+TEST_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMmJhNDNjM2MtNmMzYS00OTRiLThiMGYtZTUyYWJmMjJjYjNjIn0.271QJQDYQJWPSg0vDsQziUYI7e1YSDS4zpc6HibZUYk"
 
 test_app = TestApp(app)
 
@@ -26,10 +26,10 @@ class TestJSON(unittest.TestCase):
         self.assertEqual(response.status_int, 200)
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json['name'], TESTBOARD)
-        id = response.json['id']
+        id = response.json['board_id']
 
     def test_list_all(self):
-        response = test_app.get('/board/' + TEST_TOKEN )
+        response = test_app.get('/board/' + TEST_TOKEN)
         self.assertEqual(response.status_int, 200)
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
