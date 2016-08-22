@@ -20,7 +20,9 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'bottle==0.12.9',
-        'cherrypy==5.1.0'
+        'cherrypy==5.1.0',
+        'python-jose',
+        'dataset'
     ]
 
 )
