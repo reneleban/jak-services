@@ -110,4 +110,4 @@ def json_content(response):
 
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=8081, debug=True)
+    run(app, host=config['list']['host'], port=config['list']['port'], debug=True)
