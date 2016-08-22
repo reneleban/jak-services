@@ -25,6 +25,7 @@ def getinfo():
     return "<html><head><title>JAK-Login-Service</title></head><body>" \
            "<p>GET: <strong>/login</strong> Get Token</p>" \
            "<p>POST: <strong>/login</strong> Create user and get Token</p>" \
+           "<p>DELETE: <strong>/login</strong> Delete User</p>" \
            "</body>"
 
 
@@ -42,6 +43,21 @@ def check(username, password):
         result = check_user['password'] == hashed_pw
 
     return result
+
+
+@app.delete('/login')
+@auth_basic(check)
+def remove_login():
+    username = request.auth[0]
+
+    login_db = dataset.connect(SQLITE_CONNECTION)
+    user_table = login_db['users']
+    user_table.delete(username=username)
+
+    response.content_type = 'application/json; charset=utf-8'
+    return json.dumps({
+        'message': username + ' deleted'
+    })
 
 
 @app.get('/login')
