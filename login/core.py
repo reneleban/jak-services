@@ -12,7 +12,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 # configure logging
-logging.basicConfig(filename='board.log', level=logging.DEBUG)
+logging.basicConfig(filename=config['login']['logfile'], level=logging.DEBUG)
 
 app = Bottle()
 

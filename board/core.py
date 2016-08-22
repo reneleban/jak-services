@@ -17,7 +17,7 @@ LOCATION_DATA = config['board']['storage_location'] + os.path.sep + config['boar
 LOCATION_ACL = config['board']['storage_location'] + os.path.sep + config['board']['storage_acl']
 
 # configure logging
-logging.basicConfig(filename='board.log',level=logging.DEBUG)
+logging.basicConfig(filename=config['board']['logfile'], level=logging.DEBUG)
 
 storage_list = []
 access_list = []
