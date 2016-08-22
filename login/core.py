@@ -43,7 +43,7 @@ def login():
 
     response.content_type = 'application/json; charset=utf-8'
     token = jwt.encode({
-        'user_id': str(user_item['user_id'])
+        'user_id': str(user_item[0]['user_id'])
     }, config['jwt']['secret'], algorithm=config['jwt']['algorithm'])
 
     return json.dumps({
