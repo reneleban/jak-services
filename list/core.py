@@ -6,7 +6,7 @@ import json, uuid, configparser, os, dataset
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-LOCATION_DATA = "sqlite:///" + config['list']['storage_location'] + os.path.sep + config['list']['storage_data']
+LOCATION_DATA = config['list']['sqlite_connect']
 
 
 class List(object):
