@@ -16,7 +16,7 @@ config.read('config.ini')
 # configure logging
 logging.basicConfig(filename=config['board']['logfile'], level=logging.DEBUG)
 
-SQLITE_CONNECTION = config['login']['sqlite_connect']
+SQLITE_CONNECTION = config['board']['sqlite_connect']
 
 app = Bottle()
 

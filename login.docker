@@ -1,14 +1,8 @@
 FROM jak-base
 
-COPY login /src/login
-COPY config.ini /src
-COPY requirements.txt /src
-COPY setup.py /src
-COPY README.md /src
-COPY LICENSE /src
+COPY login.ini /application/config.ini
+COPY login /application/login
 
-RUN cd /src; pip install -r requirements.txt; python setup.py install
+EXPOSE 10030
 
-EXPOSE 9090
-
-CMD cd /src && python login/core.py
+CMD cd /application && python login/core.py

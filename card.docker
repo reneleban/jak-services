@@ -1,0 +1,8 @@
+FROM jak-base
+
+COPY card.ini /application/config.ini
+COPY card /application/card
+
+EXPOSE 10020
+
+CMD cd /application && python card/core.py
