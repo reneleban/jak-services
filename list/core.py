@@ -4,7 +4,7 @@ from jose import jwt
 import json, uuid, configparser, os, dataset
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('list.ini')
 
 LOCATION_DATA = config['list']['sqlite_connect']
 

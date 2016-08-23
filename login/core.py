@@ -10,7 +10,7 @@ from jose import jwt
 
 # read config file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('login.ini')
 
 # configure logging
 logging.basicConfig(filename=config['login']['logfile'], level=logging.DEBUG)

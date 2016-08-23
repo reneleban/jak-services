@@ -1,6 +1,6 @@
 FROM jak-base
 
-COPY login.ini /application/config.ini
+COPY login.ini /application/login.ini
 COPY login /application/login
 
 EXPOSE 10030

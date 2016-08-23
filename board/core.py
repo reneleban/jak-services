@@ -11,7 +11,7 @@ from jose import jwt
 
 # read config file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('board.ini')
 
 # configure logging
 logging.basicConfig(filename=config['board']['logfile'], level=logging.DEBUG)

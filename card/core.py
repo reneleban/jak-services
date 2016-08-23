@@ -9,7 +9,7 @@ from jose import jwt
 
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('card.ini')
 
 LOCATION_DATA = config['card']['sqlite_connect']
 

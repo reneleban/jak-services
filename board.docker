@@ -1,6 +1,6 @@
 FROM jak-base
 
-COPY board.ini /application/config.ini
+COPY board.ini /application/board.ini
 COPY board /application/board
 
 EXPOSE 10000
