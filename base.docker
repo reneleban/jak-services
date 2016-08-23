@@ -1,0 +1,16 @@
+FROM python:alpine
+
+RUN apk add python3-dev build-base --update-cache
+
+RUN pip install virtualenv
+RUN virtualenv -p /usr/local/bin/python /appenv
+RUN . /appenv/bin/activate; pip install pip
+
+VOLUME /application
+
+COPY requirements.txt /application/requirements.txt
+COPY setup.py /application/setup.py
+COPY README.md /application/README.md
+COPY LICENSE /application/LICENSE
+
+RUN cd /application/; pip install -r requirements.txt; python setup.py install

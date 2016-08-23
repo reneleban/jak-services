@@ -1,0 +1,8 @@
+FROM jak-base
+
+COPY list.ini /application/list.ini
+COPY list /application/list
+
+EXPOSE 10010
+
+CMD cd /application && python list/core.py
