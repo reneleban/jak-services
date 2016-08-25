@@ -36,19 +36,19 @@ def get_all_elements(token, board_id):
 @app.delete('/lists/list/<token>/<list_id>')
 def remove(token, list_id):
     userdata = extract_userdata(token)
-    return remove_list(response, userdata["uuid"], list_id)
+    return remove_list(response, userdata["user_id"], list_id)
 
 
 @app.put('/lists/board/<token>/<board_id>/<name>')
 def add_list_to_board(token, board_id, name):
     userdata = extract_userdata(token)
-    return add_list(response, userdata["uuid"], board_id, name)
+    return add_list(response, userdata["user_id"], board_id, name)
 
 
 @app.delete('/lists/board/<token>/<board_id>')
 def remove_lists(token, board_id):
     userdata = extract_userdata(token)
-    return remove_lists_for_board(response, userdata["uuid"], board_id)
+    return remove_lists_for_board(response, userdata["user_id"], board_id)
 
 
 def extract_userdata(token):

@@ -43,13 +43,13 @@ def get_all_cards_for_list(token, list_id):
 @app.delete('/cards/<token>/<card_id>')
 def remove(token, card_id):
     userdata = extract_userdata(token)
-    return remove_card(response, userdata['uuid'], card_id)
+    return remove_card(response, userdata["user_id"], card_id)
 
 
 @app.put('/cards/<token>/<list_id>/<name>/<description>')
 def add(token, list_id, name, description):
     userdata = extract_userdata(token)
-    return add_card(response, userdata['uuid'], list_id, name, description)
+    return add_card(response, userdata["user_id"], list_id, name, description)
 
 
 def extract_userdata(token):
