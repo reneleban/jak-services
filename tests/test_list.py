@@ -9,7 +9,7 @@ from webtest import TestApp
 # mock for response
 TESTLIST = "testlist"
 TEST_BOARD_ID = str(uuid.uuid4())
-TEST_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiZjRkMzkxOTItZmFhZC00NDU4LThhNjktYzE0ZmJiZDQ0N2E0IiwibmFtZSI6IkFybm8gTnltb3VzIiwiYWRtaW4iOnRydWV9.S5pchdBRgdxk5Qk_SKgZQnuFQCNyGN5EHSDIxLPpirY"
+TEST_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMmJhNDNjM2MtNmMzYS00OTRiLThiMGYtZTUyYWJmMjJjYjNjIn0.271QJQDYQJWPSg0vDsQziUYI7e1YSDS4zpc6HibZUYk"
 
 test_app = TestApp(app)
 

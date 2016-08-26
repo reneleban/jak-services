@@ -10,6 +10,9 @@ docker-apps:
 	docker build -t jak-board -f board.docker .;
 	docker build -t jak-list -f list.docker .;
 	docker build -t jak-card -f card.docker .;
+	
+docker-remove-images:
+	for line in $(docker images --format "{{.ID}};{{.Repository}}"|grep jak); do; image=${line%%;*}; docker rmi $image; done;
 
 test:
 	nosetests tests
