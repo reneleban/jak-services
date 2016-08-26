@@ -1,7 +1,7 @@
 FROM jak-base
 
 COPY list.ini /application/list.ini
-COPY list /application/list
+COPY src/list /application/list
 
 EXPOSE 10010
 
