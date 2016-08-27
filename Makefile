@@ -49,5 +49,8 @@ docker-update-board:
 	docker build -t jak-board -f board.docker .;
 	docker run -d -v jak-board-storage:/application -p 10000:10000 --name jak-board jak-board
 
+lint:
+	pylint src/*
+
 test:
 	nosetests tests
