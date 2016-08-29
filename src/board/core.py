@@ -110,6 +110,7 @@ def remove_board(board_id, token):
             if acl is not None:
                 acl_table.delete(board_id=board_id)
                 board_tbl.delete(board_id=board_id)
+                board_db.commit()
                 response.content_type = 'application/json; charset=utf-8'
                 return json.dumps({'message': board_id + ' deleted'})
             else:
