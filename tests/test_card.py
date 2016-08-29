@@ -28,7 +28,7 @@ class TestJSON(unittest.TestCase):
 
     def test_add_item(self):
         global ID
-        response = test_app.put('/cards/'
+        response = test_app.post('/cards/'
                                 + TEST_TOKEN + '/'
                                 + TEST_LIST_ID, {
             "name": TEST_CARD_NAME,
