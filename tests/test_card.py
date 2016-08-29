@@ -51,8 +51,6 @@ class TestJSON(unittest.TestCase):
     def test_remove_card(self):
         response = test_app.delete('/cards/' + TEST_TOKEN + '/' + str(ID))
         self.assertEqual(response.status_int, 200)
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json['deleted'], True)
 
 
 if __name__ == '__main__':

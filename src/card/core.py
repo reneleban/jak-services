@@ -48,6 +48,12 @@ def remove(token, card_id):
     return remove_card(response, userdata["user_id"], card_id)
 
 
+@app.delete('/cards/list/<token>/<list_id>')
+def remove_cards_for_list(token, list_id):
+    userdata = extract_userdata(token)
+    return remove_cards(response, userdata["user_id"], list_id)
+
+
 @app.post('/cards/<token>/<list_id>')
 def add(token, list_id):
     userdata = extract_userdata(token)
@@ -64,6 +70,20 @@ def add(token, list_id):
 
 def extract_userdata(token):
     return jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
+
+
+def remove_cards(response, owner, list_id):
+    json_content(response)
+    with dataset.connect(LOCATION_DATA) as db:
+        db.begin()
+        try:
+            db['card'].delete(list_id=list_id, owner=owner)
+            db.commit()
+        except:
+            db.rollback()
+            return HTTPResponse(status=404)
+
+    return HTTPResponse(status=200)
 
 
 def add_card(response, owner, list_id, name, description):
@@ -95,8 +115,9 @@ def remove_card(response, owner, card_id):
             db.commit()
         except:
             db.rollback()
+            return HTTPResponse(status=404)
 
-    return json.dumps({'deleted': True})
+    return HTTPResponse(status=200)
 
 
 def cards_for_list(response, list_id):
