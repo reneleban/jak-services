@@ -134,8 +134,8 @@ def create_login():
     :return: 409 if user already exists, 404 on error, 200 and JSON String with token on success
     """
     forms = request.forms
-    username = forms.get('username')
-    password = forms.get('password')
+    username = forms.username
+    password = forms.password
     user_id = uuid.uuid4()
     logging.info("processing create_login for given username: %s", username)
     logging.debug("checking for existence: %s", username)

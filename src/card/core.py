@@ -53,8 +53,8 @@ def add(token, list_id):
     userdata = extract_userdata(token)
 
     forms = request.forms
-    name = forms.get("name")
-    description = forms.get("description")
+    name = forms.name
+    description = forms.description
 
     if description is None:
         description = ""

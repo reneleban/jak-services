@@ -72,7 +72,7 @@ def add_board(token):
     :param token: user token
     :return: JSON with board_id and name or HTTPStatus 404
     """
-    name = request.forms.get('name')
+    name = request.forms.name
     user_data = jwt.decode(token, CONFIG['jwt']['secret'], algorithms=[CONFIG['jwt']['algorithm']])
     board_uuid = uuid.uuid4()
     new_board = {'board_id': str(board_uuid), 'name': name}

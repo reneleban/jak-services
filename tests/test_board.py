@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import urllib.parse
 
 from webtest import TestApp
 
 from src.board.core import APP
 
 # mock for response
-TEST_BOARD = "testboard"
+TEST_BOARD = "testboard üsing söme ;specials"
 TEST_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMmJhNDNjM2MtNmMzYS00OTRiLThi" \
              "MGYtZTUyYWJmMjJjYjNjIn0.271QJQDYQJWPSg0vDsQziUYI7e1YSDS4zpc6HibZUYk"
 
@@ -16,16 +17,14 @@ test_app = TestApp(APP)
 ID = 0
 
 
-class Response:
-    content_type = ""
-
-
 class TestJSON(unittest.TestCase):
 
     def test_add_item(self):
         global ID
-        res = test_app.put('/board/' + TEST_TOKEN, {
+        res = test_app.put('/board/' + TEST_TOKEN, params={
             'name': TEST_BOARD
+        }, headers={
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
         })
         self.assertEqual(res.status_int, 200)
         self.assertEqual(res.content_type, "application/json")
