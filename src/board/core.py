@@ -11,7 +11,7 @@ import logging
 import uuid
 import dataset
 
-from bottle import Bottle, run, response, HTTPResponse
+from bottle import Bottle, run, response, HTTPResponse, request
 from jose import jwt
 
 # read config file
@@ -65,14 +65,14 @@ def list_all_boards(token):
             return HTTPResponse(status=404)
 
 
-@APP.put('/board/<token>/<name>')
-def add_board(name, token):
+@APP.put('/board/<token>')
+def add_board(token):
     """
     Insert new Board with given 'name' for user 'token'
-    :param name: new boards name
     :param token: user token
     :return: JSON with board_id and name or HTTPStatus 404
     """
+    name = request.forms.get('name')
     user_data = jwt.decode(token, CONFIG['jwt']['secret'], algorithms=[CONFIG['jwt']['algorithm']])
     board_uuid = uuid.uuid4()
     new_board = {'board_id': str(board_uuid), 'name': name}

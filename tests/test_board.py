@@ -24,7 +24,9 @@ class TestJSON(unittest.TestCase):
 
     def test_add_item(self):
         global ID
-        res = test_app.put('/board/' + TEST_TOKEN + '/' + TEST_BOARD)
+        res = test_app.put('/board/' + TEST_TOKEN, {
+            'name': TEST_BOARD
+        })
         self.assertEqual(res.status_int, 200)
         self.assertEqual(res.content_type, "application/json")
         self.assertEqual(res.json['name'], TEST_BOARD)
