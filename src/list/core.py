@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from bottle import Bottle, run, response
+from bottle import Bottle, run, response, request
 from jose import jwt
-import json, uuid, configparser, os, dataset
+import json, uuid, configparser, dataset
 
 config = configparser.ConfigParser()
 config.read('list.ini')
@@ -39,9 +39,10 @@ def remove(token, list_id):
     return remove_list(response, userdata["user_id"], list_id)
 
 
-@app.put('/lists/board/<token>/<board_id>/<name>')
-def add_list_to_board(token, board_id, name):
+@app.post('/lists/board/<token>/<board_id>')
+def add_list_to_board(token, board_id):
     userdata = extract_userdata(token)
+    name = request.forms.name
     return add_list(response, userdata["user_id"], board_id, name)
 
 
