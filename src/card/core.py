@@ -4,7 +4,7 @@ import os
 import uuid
 import dataset
 
-from bottle import Bottle, run, response
+from bottle import Bottle, run, response, request
 from jose import jwt
 
 
@@ -46,9 +46,17 @@ def remove(token, card_id):
     return remove_card(response, userdata["user_id"], card_id)
 
 
-@app.put('/cards/<token>/<list_id>/<name>/<description>')
-def add(token, list_id, name, description):
+@app.put('/cards/<token>/<list_id>')
+def add(token, list_id):
     userdata = extract_userdata(token)
+
+    forms = request.forms
+    name = forms.get("name")
+    description = forms.get("description")
+
+    if description is None:
+        description = ""
+
     return add_card(response, userdata["user_id"], list_id, name, description)
 
 

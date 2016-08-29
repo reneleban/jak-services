@@ -8,7 +8,7 @@ from webtest import TestApp
 from src.card.core import app
 
 # mock for response
-TEST_CARD_TITLE = "testcard"
+TEST_CARD_NAME = "testcard"
 TEST_CARD_DESC = "testdescription"
 TEST_LIST_ID = str(uuid.uuid4())
 TEST_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMmJhNDNjM2MtNmMzYS00OTRiLThi" \
@@ -30,12 +30,13 @@ class TestJSON(unittest.TestCase):
         global ID
         response = test_app.put('/cards/'
                                 + TEST_TOKEN + '/'
-                                + TEST_LIST_ID + '/'
-                                + TEST_CARD_TITLE + '/'
-                                + TEST_CARD_DESC)
+                                + TEST_LIST_ID, {
+            "name": TEST_CARD_NAME,
+            "description": TEST_CARD_DESC
+        })
         self.assertEqual(response.status_int, 200)
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json['name'], TEST_CARD_TITLE)
+        self.assertEqual(response.json['name'], TEST_CARD_NAME)
         self.assertEqual(response.json['list_id'], TEST_LIST_ID)
         ID = response.json['card_id']
 
@@ -43,7 +44,7 @@ class TestJSON(unittest.TestCase):
         response = test_app.get('/cards/' + TEST_TOKEN + '/' + TEST_LIST_ID)
         self.assertEqual(response.status_int, 200)
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json[0]['name'], TEST_CARD_TITLE)
+        self.assertEqual(response.json[0]['name'], TEST_CARD_NAME)
         self.assertEqual(response.json[0]['description'], TEST_CARD_DESC)
         self.assertEqual(response.json[0]['card_id'], ID)
 
