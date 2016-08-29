@@ -105,6 +105,28 @@ def login():
             return HTTPResponse(status=404)
 
 
+@APP.get('/login/validate/<token>')
+def validate(token):
+    """
+    check for valid token, used for stored tokens on devices
+    :param token: token to check
+    :return: Status 200 if ok, 404 on error.
+    """
+    with dataset.connect(SQLITE_CONNECTION) as login_db:
+        login_db.begin()
+        try:
+            user_data = jwt.decode(token,
+                                   CONFIG['jwt']['secret'],
+                                   algorithms=[CONFIG['jwt']['algorithm']])
+            user = login_db['users'].find_one(user_id=user_data['user_id'])
+            if user is None:
+                return HTTPResponse(status=404)
+            else:
+                return HTTPResponse(status=200)
+        except:
+            return HTTPResponse(status=404)
+
+
 @APP.post('/login')
 def create_login():
     """
