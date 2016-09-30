@@ -54,8 +54,8 @@ def get_all_cards_for_list(token, list_id):
     return json.dumps([l.dump() for l in json_cards])
 
 
-@app.get('/cards/count/<token>/<list_id>')
-def count_card_in_list(token, list_id):
+@app.get('/count/<token>/<list_id>')
+def get_count_cards_for_list(token, list_id):
     json_content()
 
     with dataset.connect(LOCATION_DATA) as db:
@@ -106,7 +106,7 @@ def remove_cards_for_list(token, list_id):
 @app.post('/cards/<token>/<list_id>')
 def add(token, list_id):
     user_data = extract_user_data(token)
-    owner = user_data["owner"]
+    owner = user_data["user_id"]
 
     forms = request.forms
     name = forms.name
@@ -137,10 +137,13 @@ def extract_user_data(token):
     return jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
 
 
-def json_content:
+def json_content():
     response.content_type = 'application/json; charset=utf-8'
 
 
 if __name__ == '__main__':
-    run(app, host=config['card']['host'], port=config['card']['port'], debug=True,
+    run(app,
+        host=config['card']['host'],
+        port=config['card']['port'],
+        debug=True,
         server='cherrypy')

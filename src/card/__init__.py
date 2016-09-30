@@ -1,1 +1,1 @@
-from .core import add_card, remove_card, cards_for_list
+from .core import get_all_cards_for_list, remove, remove_cards_for_list, add
