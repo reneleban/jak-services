@@ -137,7 +137,7 @@ def extract_user_data(token):
     return jwt.decode(token, config['jwt']['secret'], algorithms=[config['jwt']['algorithm']])
 
 
-def json_content:
+def json_content():
     response.content_type = 'application/json; charset=utf-8'
 
 
