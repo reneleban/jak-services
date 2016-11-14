@@ -1,34 +1,39 @@
 import unittest
 
-from login.core import app
 from webtest import TestApp
 
-test_app = TestApp(app)
+from src.login.core import APP
 
-token = ""
+test_app = TestApp(APP)
 
-
-class response:
-    content_type = ""
+TOKEN = ""
 
 
 class TestJSON(unittest.TestCase):
 
     def test_create_login(self):
-        global token
+        global TOKEN
         response = test_app.post('/login', {
             "username": "user",
             "password": "pass"
         })
         self.assertEqual(response.status_int, 200)
-        token = response.json['token']
+        TOKEN = response.json['token']
 
-    def test_delete(self):
-        global token
-        test_app.authorization = ('Basic', ('user', 'pass'))
-        response = test_app.delete('/login')
+    def test_do_validate_valid_token(self):
+        global TOKEN
+        response = test_app.get('/login/validate/'+TOKEN)
         self.assertEqual(response.status_int, 200)
-        self.assertEqual(response.json["message"], "user deleted")
+
+    def test_do_validate_illegal_token(self):
+        response = test_app.get('/login/validate/invalid', status=404)
+        self.assertEqual(response.status_int, 404)
+
+    def test_user_delete(self):
+        global TOKEN
+        test_app.authorization = ('Basic', ('user', 'pass'))
+        resp = test_app.delete('/login')
+        self.assertEqual(resp.status_int, 200)
 
 if __name__ == '__main__':
     unittest.main()

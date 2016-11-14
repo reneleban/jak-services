@@ -10,7 +10,7 @@ with open('LICENSE') as f:
 
 setup(
     name='jak-services',
-    version='0.0.1',
+    version='0.0.3',
     description='Just-Another-Kanban Services',
     long_description=readme,
     author='René Leban',

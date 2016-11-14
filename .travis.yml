@@ -1,7 +1,15 @@
 language: python
 python:
   - "3.5"
-# command to install dependencies
-install: "pip install -r requirements.txt && python setup.py install"
-# command to run tests
-script: nosetests tests
+
+install:
+  - pip install -r requirements.txt
+  - python setup.py install
+  - pip install codecov coverage
+  - mkdir data
+
+script:
+  - nosetests tests --with-coverage --cover-xml --cover-package src
+
+after_success:
+  - codecov
