@@ -106,7 +106,7 @@ def remove_cards_for_list(token, list_id):
 @app.post('/cards/<token>/<list_id>')
 def add(token, list_id):
     user_data = extract_user_data(token)
-    owner = user_data["owner"]
+    owner = user_data["user_id"]
 
     forms = request.forms
     name = forms.name
