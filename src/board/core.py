@@ -33,10 +33,33 @@ def getinfo():
     :return: Simple HTML with some information's
     """
     return "<html><head><title>JAK-Board-Service</title></head><body>" \
-           "<p>GET: <strong>/board/token</strong> - list all boards</p>" \
+           "<p>GET: <strong>/count/token</strong> - count available boards</p>" \
+           "<p>GET: <strong>/board/token</strong> - list available boards</p>" \
            "<p>PUT: <strong>/board/[a-z]/token</strong> - add board</p>" \
            "<p>DELETE: <strong>/board/[0-9]/token</strong> - delete by ID</p>" \
            "</body></html>"
+
+
+@APP.get('/count/<token>')
+def count_all_boards(token):
+    """
+    Count available boards for given user
+    :param token: user token
+    :return: JSON Count result or HTTPStatus 404
+    """
+
+    user_data = jwt.decode(token, CONFIG['jwt']['secret'], algorithms=[CONFIG['jwt']['algorithm']])
+    logging.debug("count available boards for given user: " + user_data["user_id"])
+    with dataset.connect(SQLITE_CONNECTION) as db:
+        try:
+            db.begin()
+            board_table = db['boards']
+            count = board_table.count()
+            response.content_type = 'application/json; charset=utf-8'
+            return json.dumps({'count': count})
+
+        except:
+            return HTTPResponse(status=404)
 
 
 @APP.get('/board/<token>')

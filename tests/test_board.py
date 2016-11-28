@@ -31,6 +31,13 @@ class TestJSON(unittest.TestCase):
         self.assertEqual(res.json['name'], TEST_BOARD)
         ID = res.json['board_id']
 
+    def test_count_all(self):
+        res = test_app.get('/count/' + TEST_TOKEN)
+        self.assertEqual(res.status_int, 200)
+        self.assertEqual(res.status, "200 OK")
+        self.assertEqual(res.content_type, "application/json")
+        self.assertEqual(res.json, {'count': 1})
+
     def test_list_all(self):
         res = test_app.get('/board/' + TEST_TOKEN)
         self.assertEqual(res.status_int, 200)
