@@ -54,8 +54,8 @@ def get_all_cards_for_list(token, list_id):
     return json.dumps([l.dump() for l in json_cards])
 
 
-@app.get('/cards/count/<token>/<list_id>')
-def count_card_in_list(token, list_id):
+@app.get('/count/<token>/<list_id>')
+def get_count_cards_for_list(token, list_id):
     json_content()
 
     with dataset.connect(LOCATION_DATA) as db:
@@ -142,5 +142,8 @@ def json_content():
 
 
 if __name__ == '__main__':
-    run(app, host=config['card']['host'], port=config['card']['port'], debug=True,
+    run(app,
+        host=config['card']['host'],
+        port=config['card']['port'],
+        debug=True,
         server='cherrypy')
