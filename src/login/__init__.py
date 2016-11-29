@@ -1,1 +1,5 @@
-from .core import check, create_login
+""" Login Service
+
+.. moduleauthor:: René Leban <leban.rene@gmail.com>
+"""
+#from .core import *

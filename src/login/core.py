@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    LOGIN Rest Microservice for JAK
-
-    Implemented get, post, delete
+.. module:: login
+    :platform: osx, linux
+    :synopsis: LOGIN Rest Microservice for JAK
+.. moduleauthor:: René Leban<leban.rene@gmail.com>
 """
 import configparser
 import hashlib

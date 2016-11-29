@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-    BOARD Rest-Microservice for JAK
-
-    Implemented: get, put, delete
+.. module:: board
+    :platform: osx, linux
+    :synopsis: BOARD Rest Microservice for JAK
+.. moduleauthor:: René Leban<leban.rene@gmail.com>
 """
-
 import configparser
 import json
 import logging
