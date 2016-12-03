@@ -30,7 +30,7 @@ APP = Bottle()
 @APP.get('/')
 def getinfo():
     """
-    Info message about implemented Operations
+    GET: / --> Info message about implemented Operations
     :return: Simple HTML with some information's
     """
     return "<html><head><title>JAK-Board-Service</title></head><body>" \
@@ -44,7 +44,7 @@ def getinfo():
 @APP.get('/count/<token>')
 def count_all_boards(token):
     """
-    Count available boards for given user
+    GET: /count/<token> --> Count available boards for given user
     :param token: user token
     :return: JSON Count result or HTTPStatus 404
     """
@@ -59,14 +59,14 @@ def count_all_boards(token):
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps({'count': count})
 
-        except:
+        except HTTPResponse:
             return HTTPResponse(status=404)
 
 
 @APP.get('/board/<token>')
 def list_all_boards(token):
     """
-    Request all boards for user with given token
+    GET: /board/<token> --> Request all boards for user with given token
     :param token: user token
     :return: JSON-Board List or HTTPStatus 404
     """
@@ -85,14 +85,14 @@ def list_all_boards(token):
                 })
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps(board_list)
-        except:
+        except HTTPResponse:
             return HTTPResponse(status=404)
 
 
-@APP.put('/board/<token>')
+@APP.post('/board/<token>')
 def add_board(token):
     """
-    Insert new Board with given 'name' for user 'token'
+    POST: /board/<token> --> Insert new Board with given form param 'name' for user 'token'
     :param token: user token
     :return: JSON with board_id and name or HTTPStatus 404
     """
@@ -110,7 +110,7 @@ def add_board(token):
             board_db.commit()
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps(new_board)
-        except:
+        except HTTPResponse:
             board_db.rollback()
             return HTTPResponse(status=404)
 
@@ -118,7 +118,7 @@ def add_board(token):
 @APP.delete('/board/<token>/<board_id>')
 def remove_board(board_id, token):
     """
-    Remove board 'board_id' with user 'token'
+    DELETE: /board/<token>/<board_id> --> Remove board 'board_id' with user 'token'
     :param board_id: board_id to remove
     :param token: user token
     :return: 200 an JSON Message OK or 404 on Exception or ACL Error
@@ -140,7 +140,7 @@ def remove_board(board_id, token):
             else:
                 return HTTPResponse(status=404)
 
-        except:
+        except HTTPResponse:
             board_db.rollback()
             return HTTPResponse(status=404)
 

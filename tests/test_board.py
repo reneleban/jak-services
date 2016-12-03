@@ -21,7 +21,7 @@ class TestJSON(unittest.TestCase):
 
     def test_add_item(self):
         global ID
-        res = test_app.put('/board/' + TEST_TOKEN, params={
+        res = test_app.post('/board/' + TEST_TOKEN, params={
             'name': TEST_BOARD
         }, headers={
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'

@@ -1,9 +1,11 @@
 bin/
 docs/build/
+docs/source/_autosummary/
 include/
 lib/
 man/
 pip-selfcheck.json
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
