@@ -5,7 +5,7 @@ import uuid
 
 from webtest import TestApp
 
-from src.list import app
+from src.list.core import app
 
 # mock for response
 TESTLIST = "testlist"

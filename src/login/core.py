@@ -27,6 +27,70 @@ SQLITE_CONNECTION = CONFIG['login']['sqlite_connect']
 APP = Bottle()
 
 
+class Server:
+    def __init__(self, host, port):
+        self._host = host
+        self._port = port
+        self._app = Bottle()
+        self._route()
+
+    def _route(self):
+        self._app.route('/', method='GET', callback=self._index)
+
+    def _index():
+        """
+            Info message about implemented Operations
+            :return: Simple HTML with some information's
+            """
+        return "<html><head><title>JAK-Login-Service</title></head><body>" \
+               "<p>GET: <strong>/login</strong> Get Token</p>" \
+               "<p>POST: <strong>/login</strong> Create user and get Token</p>" \
+               "<p>DELETE: <strong>/login</strong> Delete User</p>" \
+               "</body>"
+
+    def _check(username, password):
+        """
+        authentication check used for basic auth
+        :param username: user to log in
+        :param password: password for log in
+        :return: boolean
+        """
+        logging.info("checking credentials for: %s", username)
+        hashed_pw = hashlib.sha256(password.encode('utf-8'))
+        result = False
+
+        with dataset.connect(SQLITE_CONNECTION) as login_db:
+            user_table = login_db['users']
+            check_user = user_table.find_one(username=username)
+
+        if check_user is not None:
+            result = check_user['password'] == hashed_pw.hexdigest()
+
+        return result
+
+    @APP.delete('/login')
+    @auth_basic(check)
+    def _remove_login():
+        """
+        delete user, authentication using auth basic
+        :return: 200 if ok, 404 on error
+        """
+        username = request.auth[0]
+
+        with dataset.connect(SQLITE_CONNECTION) as login_db:
+            login_db.begin()
+            try:
+                user_table = login_db['users']
+                user_table.delete(username=username)
+                login_db.commit()
+                return HTTPResponse(status=200)
+            except:
+                login_db.rollback()
+                return HTTPResponse(status=404)
+
+server = Server(host=CONFIG['login']['host'], port=CONFIG['login']['port'])
+server.start()
+
 @APP.get('/')
 def getinfo():
     """

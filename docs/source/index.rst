@@ -3,15 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to JAK Services's documentation!
-========================================
+JAK Services
+============
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   services/login
+.. automodule:: login
+.. automodule:: board
+.. automodule:: list
+.. automodule:: card
+
 
 
 Indices and tables
