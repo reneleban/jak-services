@@ -11,12 +11,16 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-.. automodule:: login
-.. automodule:: board
-.. automodule:: list
-.. automodule:: card
+.. autosummary::
+   :toctree: _autosummary
 
+   login
 
+   board
+
+   list
+
+   card
 
 Indices and tables
 ==================

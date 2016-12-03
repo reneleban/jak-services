@@ -14,14 +14,13 @@ import dataset
 
 from bottle import Bottle, run, response, request, auth_basic, HTTPResponse
 from jose import jwt
+from os import path
 
 # read config file
 CONFIG = configparser.ConfigParser()
-CONFIG.read('login.ini')
+CONFIG.read(path.normpath(path.join(path.abspath(path.dirname(__file__)), '../../', 'login.ini')))
 
-# configure logging
 logging.basicConfig(filename=CONFIG['login']['logfile'], level=logging.DEBUG)
-
 SQLITE_CONNECTION = CONFIG['login']['sqlite_connect']
 
 APP = Bottle()
@@ -30,7 +29,8 @@ APP = Bottle()
 @APP.get('/')
 def getinfo():
     """
-    Info message about implemented Operations
+    Access with: GET-Request on /
+    Contains: Info message about implemented Operations
     :return: Simple HTML with some information's
     """
     return "<html><head><title>JAK-Login-Service</title></head><body>" \

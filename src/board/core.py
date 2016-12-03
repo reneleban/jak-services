@@ -13,10 +13,11 @@ import dataset
 
 from bottle import Bottle, run, response, HTTPResponse, request
 from jose import jwt
+from os import path
 
 # read config file
 CONFIG = configparser.ConfigParser()
-CONFIG.read('board.ini')
+CONFIG.read(path.normpath(path.join(path.abspath(path.dirname(__file__)), '../../', 'board.ini')))
 
 # configure logging
 logging.basicConfig(filename=CONFIG['board']['logfile'], level=logging.DEBUG)

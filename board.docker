@@ -1,8 +1,8 @@
 FROM jak-base
 
 COPY board.ini /application/board.ini
-COPY src/board /application/board
+COPY src/board /application/src/board
 
 EXPOSE 10000
 
-CMD cd /application && python board/core.py
+CMD cd /application/src && python board/core.py

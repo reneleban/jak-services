@@ -1,8 +1,8 @@
 FROM jak-base
 
 COPY login.ini /application/login.ini
-COPY src/login /application/login
+COPY src/login /application/src/login
 
 EXPOSE 10030
 
-CMD cd /application && python login/core.py
+CMD cd /application/src && python login/core.py

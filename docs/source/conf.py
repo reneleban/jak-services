@@ -36,8 +36,11 @@ sys.path.insert(0, path.abspath('../../src/'))
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
+    'sphinx.ext.autosummary',
     'sphinx.ext.imgmath',
 ]
+
+autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
