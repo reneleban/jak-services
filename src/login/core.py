@@ -6,12 +6,12 @@
 .. moduleauthor:: René Leban<leban.rene@gmail.com>
 """
 import configparser
-import hashlib
 import json
 import logging
 import uuid
-import dataset
 
+import dataset
+import hashlib
 from bottle import Bottle, run, response, request, auth_basic, HTTPResponse
 from jose import jwt
 from os import path
@@ -29,8 +29,7 @@ APP = Bottle()
 @APP.get('/')
 def getinfo():
     """
-    Access with: GET-Request on /
-    Contains: Info message about implemented Operations
+    GET: / -> Info message about implemented Operations
     :return: Simple HTML with some information's
     """
     return "<html><head><title>JAK-Login-Service</title></head><body>" \
@@ -40,7 +39,7 @@ def getinfo():
            "</body>"
 
 
-def check(username, password):
+def _check(username, password):
     """
     authentication check used for basic auth
     :param username: user to log in
@@ -62,14 +61,13 @@ def check(username, password):
 
 
 @APP.delete('/login')
-@auth_basic(check)
+@auth_basic(_check)
 def remove_login():
     """
-    delete user, authentication using auth basic
+    DELETE: /login --> delete user, authentication using auth basic
     :return: 200 if ok, 404 on error
     """
     username = request.auth[0]
-
     with dataset.connect(SQLITE_CONNECTION) as login_db:
         login_db.begin()
         try:
@@ -77,16 +75,16 @@ def remove_login():
             user_table.delete(username=username)
             login_db.commit()
             return HTTPResponse(status=200)
-        except:
+        except HTTPResponse:
             login_db.rollback()
             return HTTPResponse(status=404)
 
 
 @APP.get('/login')
-@auth_basic(check)
+@auth_basic(_check)
 def login():
     """
-    login user using auth_basic
+    GET: /login --> login user using auth_basic
     :return: 200 and JSON String with token or HTTPStatus 404 on error
     """
     username = request.auth[0]
@@ -102,14 +100,14 @@ def login():
             return json.dumps({
                 'token': token
             })
-        except:
+        except HTTPResponse:
             return HTTPResponse(status=404)
 
 
 @APP.get('/login/validate/<token>')
 def validate(token):
     """
-    check for valid token, used for stored tokens on devices
+    GET: /login/validate/<token> --> check for valid token, used for stored tokens on devices
     :param token: token to check
     :return: Status 200 if ok, 404 on error.
     """
@@ -124,14 +122,14 @@ def validate(token):
                 return HTTPResponse(status=404)
             else:
                 return HTTPResponse(status=200)
-        except:
+        except HTTPResponse:
             return HTTPResponse(status=404)
 
 
 @APP.post('/login')
 def create_login():
     """
-    create new user login
+    POST: /login --> create new user login
     :return: 409 if user already exists, 404 on error, 200 and JSON String with token on success
     """
     forms = request.forms
@@ -168,7 +166,7 @@ def create_login():
                 return json.dumps({
                     'token': token
                 })
-            except:
+            except HTTPResponse:
                 login_db.rollback()
                 return HTTPResponse(status=404)
     else:
