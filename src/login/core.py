@@ -123,7 +123,7 @@ def validate(token):
                 return HTTPResponse(status=404)
             else:
                 return HTTPResponse(status=200)
-        except HTTPResponse:
+        except:
             return HTTPResponse(status=404)
 
 
