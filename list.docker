@@ -1,6 +1,6 @@
 FROM jak-base
 
-COPY list.ini /application/list.ini
+COPY docker-resources/list.ini /application/list.ini
 COPY src/list /application/list
 
 EXPOSE 10010

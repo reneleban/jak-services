@@ -1,6 +1,6 @@
 FROM jak-base
 
-COPY login.ini /application/login.ini
+COPY docker-resources/login.ini /application/login.ini
 COPY src/login /application/src/login
 
 EXPOSE 10030

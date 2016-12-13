@@ -1,6 +1,6 @@
 FROM jak-base
 
-COPY board.ini /application/board.ini
+COPY docker-resources/board.ini /application/board.ini
 COPY src/board /application/src/board
 
 EXPOSE 10000
