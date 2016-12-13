@@ -47,7 +47,7 @@ docker-update-board:
 	docker rm jak-board
 	docker rmi jak-board
 	docker build -t jak-board -f board.docker .;
-	docker run -d -v jak-board-storage:/application/data -p 10000:10000 --restart=always--name jak-board jak-board
+	docker run -d -v jak-board-storage:/application/data -p 10000:10000 --restart=always --name jak-board jak-board
 
 lint:
 	pylint src/*
