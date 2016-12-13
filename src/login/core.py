@@ -55,6 +55,7 @@ def _check(username, password):
         check_user = user_table.find_one(username=username)
 
     if check_user is not None:
+        logging.info("Testing Password: " + hashed_pw.hexdigest())
         result = check_user['password'] == hashed_pw.hexdigest()
 
     return result
