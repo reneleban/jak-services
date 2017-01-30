@@ -123,7 +123,7 @@ def validate(token):
                 return HTTPResponse(status=404)
             else:
                 return json.dumps({
-                    'username': user.username
+                    'username': user['username']
                 })
         except:
             return HTTPResponse(status=404)
