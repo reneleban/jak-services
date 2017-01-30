@@ -122,7 +122,10 @@ def validate(token):
             if user is None:
                 return HTTPResponse(status=404)
             else:
-                return HTTPResponse(status=200)
+                response.content_type = 'application/json; charset=utf-8'
+                return json.dumps({
+                    'username': user['username']
+                })
         except:
             return HTTPResponse(status=404)
 
