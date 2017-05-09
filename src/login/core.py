@@ -46,6 +46,10 @@ def _check(username, password):
     :param password: password for log in
     :return: boolean
     """
+
+    if username is None or password is None:
+        return HTTPResponse(status=404)
+
     logging.info("checking credentials for: %s", username)
     hashed_pw = hashlib.sha256(password.encode('utf-8'))
     result = False
@@ -142,6 +146,9 @@ def create_login():
     user_id = uuid.uuid4()
     logging.info("processing create_login for given username: %s", username)
     logging.debug("checking for existence: %s", username)
+
+    if username is None or password is None:
+        return HTTPResponse(status=404)
 
     with dataset.connect(SQLITE_CONNECTION) as login_db:
         user_table = login_db['users']
