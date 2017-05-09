@@ -48,7 +48,7 @@ def _check(username, password):
     """
 
     if username is None or password is None:
-        return HTTPResponse(status=404)
+        return False
 
     logging.info("checking credentials for: %s", username)
     hashed_pw = hashlib.sha256(password.encode('utf-8'))
