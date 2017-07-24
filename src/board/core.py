@@ -59,7 +59,7 @@ def count_all_boards(token):
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps({'count': count})
 
-        except HTTPResponse:
+        except:
             return HTTPResponse(status=404)
 
 
@@ -85,7 +85,7 @@ def list_all_boards(token):
                 })
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps(board_list)
-        except HTTPResponse:
+        except:
             return HTTPResponse(status=404)
 
 
@@ -110,7 +110,7 @@ def add_board(token):
             board_db.commit()
             response.content_type = 'application/json; charset=utf-8'
             return json.dumps(new_board)
-        except HTTPResponse:
+        except:
             board_db.rollback()
             return HTTPResponse(status=404)
 
@@ -140,7 +140,7 @@ def remove_board(board_id, token):
             else:
                 return HTTPResponse(status=404)
 
-        except HTTPResponse:
+        except:
             board_db.rollback()
             return HTTPResponse(status=404)
 
